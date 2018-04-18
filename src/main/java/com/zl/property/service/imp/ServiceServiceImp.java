@@ -16,19 +16,18 @@ public class ServiceServiceImp implements ServiceService {
     ServiceRepository serviceRepository;
 
     @Override
-    public Repair getRepairsByRoomId(Repair repair) {
-        Repair repairs = serviceRepository.findRepairsByRoomId(repair.getRoomId());
+    public Repair getRepairsByRepairsId(Repair repair) {
+        Repair repairs = serviceRepository.findRepairsByRepairsId(repair.getRepairsId());
         return repairs;
     }
 
     @Override
-    public List<Repair> getRepairsByUserId(Repair repair) {
-        List<Repair> repairs = serviceRepository.findRepairsByUserId(repair.getUserId());
-        return repairs;
-    }
-    @Override
     public List<Repair> getRepairsByUserIdAndState(Repair repair) {
-        List<Repair> repairs = serviceRepository.findRepairsByUserIdAndState(repair.getRoomId(),repair.getState());
+        List<Repair> repairs;
+        if (repair.getState() == null)
+            repairs = serviceRepository.findRepairsByUserId(repair.getUserId());
+        else
+            repairs = serviceRepository.findRepairsByUserIdAndState(repair.getRoomId(), repair.getState());
         return repairs;
     }
 

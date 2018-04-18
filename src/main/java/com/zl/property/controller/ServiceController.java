@@ -25,26 +25,6 @@ public class ServiceController {
      * 根据用户id获取所有报修订单
      * @return
      */
-    @PostMapping("/getAllRepairByUserId")
-    @ResponseBody
-    public  String getAllRepairByUserId(@RequestBody Repair repair) {
-        ResultDto resultDto = new ResultDto();
-        List<Repair> registerBack = serviceService.getRepairsByUserId(repair);
-
-        if(repair == null){
-            resultDto.setErrMessage("没有查到订单!");
-            resultDto.setHasSuccess(false);
-            resultDto.setSuccess(true);
-        }else{
-            resultDto.setData(registerBack);
-        }
-
-        return JSON.toJSONString(resultDto);
-    }
-    /**
-     * 根据用户id获取所有报修订单
-     * @return
-     */
     @PostMapping("/getRepairsByUserIdAndState")
     @ResponseBody
     public  String getRepairsByUserIdAndState(@RequestBody Repair repair) {

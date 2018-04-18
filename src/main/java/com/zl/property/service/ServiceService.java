@@ -6,8 +6,7 @@ import com.zl.property.model.hib.server.Repair;
 import java.util.List;
 
 public interface ServiceService {
-    Repair getRepairsByRoomId(Repair repair);
-    List<Repair> getRepairsByUserId(Repair repair);
+    Repair getRepairsByRepairsId(Repair repair);
     List<Repair> getRepairsByUserIdAndState(Repair repair);
     Repair saveRepair(Repair repair);
 }

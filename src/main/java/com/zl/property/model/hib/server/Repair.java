@@ -73,6 +73,20 @@ public class Repair {
     @Column(name = "stars")
     private String stars;
 
+    /**
+     *  服务类型
+     */
+    @Column(name = "type")
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getUserId() {
         return userId;
     }
