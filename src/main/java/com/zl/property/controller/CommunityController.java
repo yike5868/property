@@ -9,4 +9,6 @@ public class CommunityController {
     String home() {
         return "Hello World!";
     }
+    //测试提交是否成功
+
 }
