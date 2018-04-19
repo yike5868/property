@@ -2,6 +2,8 @@ package com.zl.property.service.imp;
 
 import com.zl.property.model.hib.UserInfo;
 import com.zl.property.model.hib.server.Repair;
+import com.zl.property.model.hib.utils.Banner;
+import com.zl.property.repository.BannerRepository;
 import com.zl.property.repository.ServiceRepository;
 import com.zl.property.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +17,27 @@ public class ServiceServiceImp implements ServiceService {
     @Autowired
     ServiceRepository serviceRepository;
 
+    @Autowired
+    BannerRepository bannerRepository;
+
+
+
+    /**
+     * 根据id获取服务订单
+     * @param repair
+     * @return
+     */
     @Override
     public Repair getRepairsByRepairsId(Repair repair) {
         Repair repairs = serviceRepository.findRepairsByRepairsId(repair.getRepairsId());
         return repairs;
     }
 
+    /**
+     * 根据用户名和状态获取服务订单列表
+     * @param repair
+     * @return
+     */
     @Override
     public List<Repair> getRepairsByUserIdAndState(Repair repair) {
         List<Repair> repairs;
@@ -31,10 +48,24 @@ public class ServiceServiceImp implements ServiceService {
         return repairs;
     }
 
+    /**
+     * 保存订单
+     * @param repair
+     * @return
+     */
     @Override
     public Repair saveRepair(Repair repair) {
         Repair repair1 = serviceRepository.save(repair);
         return repair1;
+    }
+    /**
+     * 获取banner 图片
+     */
+    @Override
+    public List<Banner> findBannerByVersion(Banner banner) {
+        List<Banner> bannerList = bannerRepository.findBannerByVersion(banner.getVersion());
+
+        return bannerList;
     }
 
 

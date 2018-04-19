@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.zl.property.model.dto.ResultDto;
 import com.zl.property.model.hib.UserInfo;
 import com.zl.property.model.hib.server.Repair;
+import com.zl.property.model.hib.utils.Banner;
 import com.zl.property.service.ServiceService;
 import com.zl.property.service.imp.UserServiceImp;
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ public class ServiceController {
         return JSON.toJSONString(resultDto);
     }
      /**
-     * 根据用户id获取所有报修订单
+     * 保存订单
      * @return
      */
     @PostMapping("/saveRepair")
@@ -61,7 +62,26 @@ public class ServiceController {
         return JSON.toJSONString(resultDto);
     }
 
+    /**
+     * 根据用户版本获取banner
+     */
 
+    @PostMapping("/findBannerByVersion")
+    @ResponseBody
+    public  String findBannerByVersion(@RequestBody Banner banner) {
+        ResultDto resultDto = new ResultDto();
+        List<Banner> bannerList = serviceService.findBannerByVersion(banner);
+        if(bannerList == null){
+            //获取banner失败
+            resultDto.setErrMessage("");
+            resultDto.setHasSuccess(true);
+            resultDto.setSuccess(false);
+        }else{
+            resultDto.setData(bannerList);
+        }
+
+        return JSON.toJSONString(resultDto);
+    }
 
 
 }
