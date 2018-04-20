@@ -16,13 +16,12 @@ import javax.servlet.http.HttpSession;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(value = "/user",produces="text/plain;charset=UTF-8")
 public class UserController {
     static Logger logger = LoggerFactory.getLogger(UserServiceImp.class);
 
     @Autowired
     UserService userService;
-
 
     /**
      * 登录

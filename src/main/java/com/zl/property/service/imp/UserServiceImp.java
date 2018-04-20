@@ -21,7 +21,7 @@ public class UserServiceImp implements UserService {
     public UserInfo findUserInfoByUserName(UserInfo userInfo){
 
         UserInfo backUserInfo = userInfoRepository.findUserInfoByUserName(userInfo.getUserName());
-        if(backUserInfo.getPassword().equals(userInfo.getPassword())){
+        if(backUserInfo!=null && backUserInfo.getPassword().equals(userInfo.getPassword())){
             return backUserInfo;
         }
         return null;

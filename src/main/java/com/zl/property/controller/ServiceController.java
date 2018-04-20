@@ -16,9 +16,9 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
-@RequestMapping("/service")
+@RequestMapping(value = "/service",produces="text/plain;charset=UTF-8")
 public class ServiceController {
-    @Autowired
+      @Autowired
     ServiceService serviceService;
     static Logger logger = LoggerFactory.getLogger(UserServiceImp.class);
 
@@ -73,13 +73,33 @@ public class ServiceController {
         List<Banner> bannerList = serviceService.findBannerByVersion(banner);
         if(bannerList == null){
             //获取banner失败
-            resultDto.setErrMessage("");
+            resultDto.setErrMessage("获取banner失败");
             resultDto.setHasSuccess(true);
             resultDto.setSuccess(false);
         }else{
             resultDto.setData(bannerList);
         }
 
+        return JSON.toJSONString(resultDto);
+    }
+    /**
+     * 保存banner
+     */
+
+    @PostMapping("/saveBanner")
+    @ResponseBody
+    public  String saveBanner(@RequestBody Banner banner) {
+        ResultDto resultDto = new ResultDto();
+        banner.setBannerMessage("你好");
+        Banner backBanner = serviceService.saveBanner(banner);
+        if(backBanner == null){
+            //获取banner失败
+            resultDto.setErrMessage("保存banner失败！");
+            resultDto.setHasSuccess(true);
+            resultDto.setSuccess(false);
+        }else{
+            resultDto.setData(backBanner);
+        }
         return JSON.toJSONString(resultDto);
     }
 

@@ -9,7 +9,7 @@ import java.util.Date;
 @Configuration
 @Entity
 @Table(name = "p_server_repairs")
-public class Repair {
+public class Repair  {
     @Id
     @GeneratedValue(generator="system_uuid")
     @GenericGenerator(name="system_uuid",strategy="uuid")

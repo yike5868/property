@@ -11,4 +11,5 @@ public interface ServiceService {
     List<Repair> getRepairsByUserIdAndState(Repair repair);
     Repair saveRepair(Repair repair);
     List<Banner> findBannerByVersion(Banner banner);
+    Banner saveBanner(Banner banner);
 }

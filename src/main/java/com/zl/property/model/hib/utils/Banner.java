@@ -1,14 +1,18 @@
 package com.zl.property.model.hib.utils;
 
+import com.sun.xml.internal.ws.developer.Serialization;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.lang.annotation.Annotation;
 
 @Configuration
 @Entity
-@Table(name = "p_dictionaries")
-public class Banner {
+@Table(name = "p_banner")
+public class Banner implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(generator="system_uuid")
     @GenericGenerator(name="system_uuid",strategy="uuid")
@@ -66,4 +70,5 @@ public class Banner {
     public void setVersion(String version) {
         this.version = version;
     }
+
 }

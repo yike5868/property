@@ -68,5 +68,11 @@ public class ServiceServiceImp implements ServiceService {
         return bannerList;
     }
 
+    @Override
+    public Banner saveBanner(Banner banner) {
+        banner = bannerRepository.save(banner);
+        return banner;
+    }
+
 
 }
