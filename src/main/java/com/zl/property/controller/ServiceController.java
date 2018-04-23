@@ -90,7 +90,6 @@ public class ServiceController {
     @ResponseBody
     public  String saveBanner(@RequestBody Banner banner) {
         ResultDto resultDto = new ResultDto();
-        banner.setBannerMessage("你好");
         Banner backBanner = serviceService.saveBanner(banner);
         if(backBanner == null){
             //获取banner失败

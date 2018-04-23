@@ -1,10 +1,13 @@
 package com.zl.property.config;
 
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -28,6 +31,16 @@ public class WebSecurityConfig extends WebMvcConfigurationSupport {
 
 
 
+    @Bean
+    public MultipartConfigElement multipartConfigElement(){
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        //文件最大KB,MB
+        factory.setMaxFileSize("2MB");
+        //设置总上传数据总大小
+        factory.setMaxRequestSize("10MB");
+        return factory.createMultipartConfig();
+    }
+
 
     @Bean
     public SecurityInterceptor getSecurityInterceptor() {
@@ -40,6 +53,7 @@ public class WebSecurityConfig extends WebMvcConfigurationSupport {
         // 排除配置
         addInterceptor.excludePathPatterns("/error");
         addInterceptor.excludePathPatterns("/user/**");
+        addInterceptor.excludePathPatterns("/file/**");
         // 拦截配置
         addInterceptor.addPathPatterns("/**");
     }
