@@ -126,7 +126,8 @@ public class FileController {
     @RequestMapping("/getimgs")
     public void getimg(String address, HttpServletRequest request, HttpServletResponse response) throws IOException{
         try {
-            FileInputStream hFile=new FileInputStream(address);
+            String local = "/Users/zhanglin/Documents/property/property";
+            FileInputStream hFile=new FileInputStream(local+address);
             int i=hFile.available();
             byte data[]=new byte[i];
             hFile.read(data);

@@ -26,7 +26,7 @@ public class ServiceController {
      * 根据用户id获取所有报修订单
      * @return
      */
-    @PostMapping("/getRepairsByUserIdAndState")
+    @PostMapping("/getRepairs")
     @ResponseBody
     public  String getRepairsByUserIdAndState(@RequestBody Repair repair) {
         ResultDto resultDto = new ResultDto();
