@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Configuration
 @Entity
@@ -45,6 +46,9 @@ public class Repair  {
      */
     @Column(name = "photos")
     private String photos;
+
+    private List<Photo> PhotoList;
+
     /**
      * 状态
      */
@@ -78,6 +82,14 @@ public class Repair  {
      */
     @Column(name = "type")
     private String type;
+
+    public List<Photo> getPhotoList() {
+        return PhotoList;
+    }
+
+    public void setPhotoList(List<Photo> photoList) {
+        PhotoList = photoList;
+    }
 
     public String getType() {
         return type;
