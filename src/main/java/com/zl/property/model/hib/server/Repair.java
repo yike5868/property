@@ -7,6 +7,8 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 @Configuration
 @Entity
 @Table(name = "p_server_repairs")
@@ -41,12 +43,21 @@ public class Repair  {
      */
     @Column(name = "end_time")
     private Date endTime;
+
+    /**
+     * 方便维修日期
+     */
+    @Column(name = "begin_date")
+    private Date beginDate;
+    @Column(name = "end_date")
+    private Date endDate;
     /**
      * 图片列表
      */
     @Column(name = "photos")
     private String photos;
 
+    @Transient
     private List<Photo> PhotoList;
 
     /**
@@ -82,6 +93,22 @@ public class Repair  {
      */
     @Column(name = "type")
     private String type;
+
+    public Date getBeginDate() {
+        return beginDate;
+    }
+
+    public void setBeginDate(Date beginDate) {
+        this.beginDate = beginDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
     public List<Photo> getPhotoList() {
         return PhotoList;

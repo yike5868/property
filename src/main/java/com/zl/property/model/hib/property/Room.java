@@ -5,11 +5,11 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 /**
- * 单元和房间
+ * 单元
  */
 @Entity
-@Table(name = "p_unit_room")
-public class UnitRoom {
+@Table(name = "p_room")
+public class Room {
     @Id
     @GeneratedValue(generator="system_uuid")
     @GenericGenerator(name="system_uuid",strategy="uuid")
@@ -20,11 +20,17 @@ public class UnitRoom {
     private String buildingId;
     @Column(name = "unit_id")
     private String unitId;
-    @Column(name = "unit_name")
-    private String unitName;
 
     @Column(name = "room_name")
     private String roomName;
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
 
     public String getBuildingId() {
         return buildingId;
@@ -40,22 +46,6 @@ public class UnitRoom {
 
     public void setUnitId(String unitId) {
         this.unitId = unitId;
-    }
-
-    public String getUnitName() {
-        return unitName;
-    }
-
-    public void setUnitName(String unitName) {
-        this.unitName = unitName;
-    }
-
-    public String getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
     }
 
     public String getRoomName() {
