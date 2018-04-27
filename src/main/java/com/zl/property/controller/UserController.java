@@ -3,6 +3,7 @@ package com.zl.property.controller;
 import com.alibaba.fastjson.JSON;
 import com.zl.property.config.WebSecurityConfig;
 import com.zl.property.model.dto.ResultDto;
+import com.zl.property.model.dto.RoomItem;
 import com.zl.property.model.hib.UserInfo;
 import com.zl.property.model.hib.property.Building;
 import com.zl.property.model.hib.property.Microdistrict;
@@ -96,79 +97,30 @@ public class UserController {
     }
 
     /**
-     * 获取小区
+     * 获取公共单元
      * @return
      */
-    @PostMapping("/findAllMicrodistrict")
+    @PostMapping("/findRoom")
     @ResponseBody
-    public  String findAllMicrodistrict() {
+    public  String findRoom(@RequestBody RoomItem roomItem) {
         ResultDto resultDto = new ResultDto();
-
-        List<Microdistrict> microdistrictList = userService.findAllMicrodistrict();
-        if(microdistrictList == null){
-            resultDto.setErrMessage("获取小区失败！请联系小区负责人");
-            resultDto.setHasSuccess(true);
-            resultDto.setSuccess(false);
-        }else{
-            resultDto.setData(microdistrictList);
+        List<RoomItem> roomItemList = null;
+        if(roomItem == null||roomItem.getType() == null||"".equals(roomItem.getType())){
+            roomItemList = userService.findAllMicrodistrict();
+        }else if("microdistrict".equals(roomItem.getType())){
+            roomItemList = userService.findBuildingByMicrodistrictId(roomItem.getId());
+        }else if("building".equals(roomItem.getType())){
+            roomItemList= userService.findUnitByBuildingId(roomItem.getId());
+        }else if("unit".equals(roomItem.getType())){
+            roomItemList = userService.findRoomByUnitId(roomItem.getId());
         }
-        return JSON.toJSONString(resultDto);
-    }
-    /**
-     * 获取楼栋
-     * @return
-     */
-    @PostMapping("/findBuildingByMicrodistrictId")
-    @ResponseBody
-    public  String findBuildingByMicrodistrictId(Microdistrict microdistrict) {
-        ResultDto resultDto = new ResultDto();
 
-        List<Building> buildingList = userService.findBuildingByMicrodistrictId(microdistrict);
-        if(buildingList == null){
-            resultDto.setErrMessage("获取楼栋失败！请联系小区负责人");
+        if(roomItemList == null||roomItemList.size()<1){
+            resultDto.setErrMessage("获取失败！请联系小区负责人");
             resultDto.setHasSuccess(true);
             resultDto.setSuccess(false);
         }else{
-            resultDto.setData(buildingList);
-        }
-        return JSON.toJSONString(resultDto);
-    }
-
-    /**
-     * 获取单元
-     * @return
-     */
-    @PostMapping("/findUnitByBuildingId")
-    @ResponseBody
-    public  String findUnitByBuildingId(Building building) {
-        ResultDto resultDto = new ResultDto();
-
-        List<Unit> unitList = userService.findUnitByBuildingId(building);
-        if(unitList == null){
-            resultDto.setErrMessage("获取单元失败！请联系小区负责人");
-            resultDto.setHasSuccess(true);
-            resultDto.setSuccess(false);
-        }else{
-            resultDto.setData(unitList);
-        }
-        return JSON.toJSONString(resultDto);
-    }
-    /**
-     * 获取单元
-     * @return
-     */
-    @PostMapping("/findRoomByUnitId")
-    @ResponseBody
-    public  String findRoomByUnitId(Unit unit) {
-        ResultDto resultDto = new ResultDto();
-
-        List<Room> roomList = userService.findRoomByUnitId(unit);
-        if(roomList == null){
-            resultDto.setErrMessage("获取房间失败！请联系小区负责人");
-            resultDto.setHasSuccess(true);
-            resultDto.setSuccess(false);
-        }else{
-            resultDto.setData(roomList);
+            resultDto.setData(roomItemList);
         }
         return JSON.toJSONString(resultDto);
     }

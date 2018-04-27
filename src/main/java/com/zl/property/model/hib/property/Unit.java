@@ -22,8 +22,7 @@ public class Unit {
     @Column(name = "unit_name")
     private String unitName;
 
-    @Column(name = "room_name")
-    private String roomName;
+
 
     public String getBuildingId() {
         return buildingId;
@@ -49,11 +48,4 @@ public class Unit {
         this.unitName = unitName;
     }
 
-    public String getRoomName() {
-        return roomName;
-    }
-
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
-    }
 }

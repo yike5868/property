@@ -1,5 +1,6 @@
 package com.zl.property.service;
 
+import com.zl.property.model.dto.RoomItem;
 import com.zl.property.model.hib.UserInfo;
 import com.zl.property.model.hib.property.Building;
 import com.zl.property.model.hib.property.Microdistrict;
@@ -12,8 +13,8 @@ public interface UserService {
     UserInfo findUserInfoByUserName(UserInfo userInfo);
     UserInfo register(UserInfo userInfo);
 
-    List<Microdistrict> findAllMicrodistrict();
-    List<Building> findBuildingByMicrodistrictId(Microdistrict microdistrict);
-    List<Unit> findUnitByBuildingId(Building building);
-    List<Room> findRoomByUnitId(Unit unit);
+    List<RoomItem> findAllMicrodistrict();
+    List<RoomItem> findBuildingByMicrodistrictId(String microdistrict);
+    List<RoomItem> findUnitByBuildingId(String building);
+    List<RoomItem> findRoomByUnitId(String unit);
 }

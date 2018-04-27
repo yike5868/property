@@ -13,7 +13,7 @@ public class Building {
     @Id
     @GeneratedValue(generator="system_uuid")
     @GenericGenerator(name="system_uuid",strategy="uuid")
-    @Column(name = "buildingId", unique = true, nullable = false)
+    @Column(name = "building_id", unique = true, nullable = false)
     private String buildingId;
 
     @Column(name = "microdistrict_id")
