@@ -54,6 +54,7 @@ public class WebSecurityConfig extends WebMvcConfigurationSupport {
         addInterceptor.excludePathPatterns("/error");
         addInterceptor.excludePathPatterns("/user/**");
         addInterceptor.excludePathPatterns("/file/**");
+//        addInterceptor.excludePathPatterns("/**");
         // 拦截配置
         addInterceptor.addPathPatterns("/**");
     }
