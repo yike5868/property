@@ -2,7 +2,6 @@ package com.zl.property.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.zl.property.model.dto.ResultDto;
-import com.zl.property.model.hib.UserInfo;
 import com.zl.property.model.hib.server.Repair;
 import com.zl.property.model.hib.utils.Banner;
 import com.zl.property.service.ServiceService;
@@ -12,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -33,7 +31,7 @@ public class ServiceController {
         List<Repair> registerBack = serviceService.getRepairsByUserIdAndState(repair);
 
         if(repair == null){
-            resultDto.setErrMessage("没有查到订单!");
+            resultDto.setMessage("没有查到订单!");
             resultDto.setHasSuccess(false);
             resultDto.setSuccess(true);
         }else{
@@ -52,10 +50,11 @@ public class ServiceController {
         ResultDto resultDto = new ResultDto();
         Repair repairBack = serviceService.saveRepair(repair);
         if(repairBack == null){
-            resultDto.setErrMessage("保存失败!请重试！");
+            resultDto.setMessage("保存失败!请重试！");
             resultDto.setHasSuccess(true);
             resultDto.setSuccess(false);
         }else{
+            resultDto.setMessage("提交成功！请等待");
             resultDto.setData(repairBack);
         }
 
@@ -73,7 +72,7 @@ public class ServiceController {
         List<Banner> bannerList = serviceService.findBannerByVersion(banner);
         if(bannerList == null){
             //获取banner失败
-            resultDto.setErrMessage("获取banner失败");
+            resultDto.setMessage("获取banner失败");
             resultDto.setHasSuccess(true);
             resultDto.setSuccess(false);
         }else{
@@ -93,7 +92,7 @@ public class ServiceController {
         Banner backBanner = serviceService.saveBanner(banner);
         if(backBanner == null){
             //获取banner失败
-            resultDto.setErrMessage("保存banner失败！");
+            resultDto.setMessage("保存banner失败！");
             resultDto.setHasSuccess(true);
             resultDto.setSuccess(false);
         }else{

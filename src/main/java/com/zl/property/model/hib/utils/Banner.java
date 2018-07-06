@@ -1,12 +1,10 @@
 package com.zl.property.model.hib.utils;
 
-import com.sun.xml.internal.ws.developer.Serialization;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
 
 @Configuration
 @Entity

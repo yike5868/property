@@ -5,10 +5,6 @@ import com.zl.property.config.WebSecurityConfig;
 import com.zl.property.model.dto.ResultDto;
 import com.zl.property.model.dto.RoomItem;
 import com.zl.property.model.hib.UserInfo;
-import com.zl.property.model.hib.property.Building;
-import com.zl.property.model.hib.property.Microdistrict;
-import com.zl.property.model.hib.property.Room;
-import com.zl.property.model.hib.property.Unit;
 import com.zl.property.service.UserService;
 import com.zl.property.service.imp.UserServiceImp;
 import com.zl.property.utils.JsonObjectUtils;
@@ -43,7 +39,7 @@ public class UserController {
         ResultDto resultDto = new ResultDto();
         UserInfo userInfoBack = userService.findUserInfoByUserName(userInfo);
         if(userInfoBack == null){
-            resultDto.setErrMessage("登录失败，请检查用户名或密码！");
+            resultDto.setMessage("登录失败，请检查用户名或密码！");
             resultDto.setHasSuccess(true);
             resultDto.setSuccess(false);
         }else {
@@ -68,7 +64,7 @@ public class UserController {
         ResultDto resultDto = new ResultDto();
         UserInfo userInfo1 = userService.findUserInfoByUserName(userInfo);
         if(userInfo1!=null){
-            resultDto.setErrMessage("用户名重复！");
+            resultDto.setMessage("用户名重复！");
             resultDto.setHasSuccess(true);
             resultDto.setSuccess(false);
             return JSON.toJSONString(resultDto);
@@ -76,7 +72,7 @@ public class UserController {
         UserInfo userInfoSend = userService.register(userInfo);
 
         if(userInfoSend == null){
-            resultDto.setErrMessage("注册失败，请检查用户名或密码！");
+            resultDto.setMessage("注册失败，请检查用户名或密码！");
             resultDto.setHasSuccess(true);
             resultDto.setSuccess(false);
         }else{
@@ -116,7 +112,7 @@ public class UserController {
         }
 
         if(roomItemList == null||roomItemList.size()<1){
-            resultDto.setErrMessage("获取失败！请联系小区负责人");
+            resultDto.setMessage("获取失败！请联系小区负责人");
             resultDto.setHasSuccess(true);
             resultDto.setSuccess(false);
         }else{

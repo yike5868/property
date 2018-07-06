@@ -2,14 +2,10 @@ package com.zl.property.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.zl.property.model.dto.ResultDto;
-import com.zl.property.service.imp.UserServiceImp;
-import com.zl.property.utils.JsonObjectUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -18,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,7 +23,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/file", produces = "text/plain;charset=UTF-8")
@@ -87,7 +81,7 @@ public class FileController {
             String resultPath = imgUrl + fileUrl;
             resultDto.setData(resultPath);
         } else {
-            resultDto.setErrMessage("图片上传失败！");
+            resultDto.setMessage("图片上传失败！");
             resultDto.setHasSuccess(true);
             resultDto.setSuccess(false);
         }

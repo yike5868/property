@@ -3,7 +3,7 @@ package com.zl.property.model.dto;
 public class ResultDto {
     private Boolean isSuccess = true;
     private Boolean hasSuccess = false;
-    private String errMessage = "";
+    private String message = "";
     private Object data;
 
     public Boolean getSuccess() {
@@ -22,12 +22,12 @@ public class ResultDto {
         this.hasSuccess = hasSuccess;
     }
 
-    public String getErrMessage() {
-        return errMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setErrMessage(String errMessage) {
-        this.errMessage = errMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Object getData() {

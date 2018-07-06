@@ -6,6 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.zl.property.controller.FileController;
+import com.zl.property.utils.BodyReaderHttpServletRequestWrapper;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
@@ -14,9 +19,13 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import sun.rmi.runtime.Log;
 
 import java.nio.charset.Charset;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 配置
@@ -29,7 +38,7 @@ public class WebSecurityConfig extends WebMvcConfigurationSupport {
      */
     public final static String SESSION_KEY = "user";
 
-
+    static org.slf4j.Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
 
     @Bean
     public MultipartConfigElement multipartConfigElement(){
@@ -64,6 +73,15 @@ public class WebSecurityConfig extends WebMvcConfigurationSupport {
         @Override
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
                 throws Exception {
+
+            //获取请求参数
+            Enumeration enu=request.getParameterNames();
+            while(enu.hasMoreElements()){
+                String paraName=(String)enu.nextElement();
+                logger.info("resvice data:  ",paraName+ "   " +request.getParameter(paraName));
+            }
+
+
             HttpSession session = request.getSession();
             if (session.getAttribute(SESSION_KEY) != null)
                 return true;

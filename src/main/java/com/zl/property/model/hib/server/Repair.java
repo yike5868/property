@@ -36,8 +36,8 @@ public class Repair  {
     /**
      * 方便维修时间
      */
-    @Column(name = "beagin_time")
-    private Date beaginTime;
+    @Column(name = "begin_time")
+    private Date beginTime;
     /**
      * 方便维修结束时间
      */
@@ -158,12 +158,12 @@ public class Repair  {
         this.message = message;
     }
 
-    public Date getBeaginTime() {
-        return beaginTime;
+    public Date getBeginTime() {
+        return beginTime;
     }
 
-    public void setBeaginTime(Date beaginTime) {
-        this.beaginTime = beaginTime;
+    public void setBeginTime(Date beginTime) {
+        this.beginTime = beginTime;
     }
 
     public Date getEndTime() {
