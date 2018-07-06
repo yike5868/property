@@ -1,9 +1,11 @@
 package com.zl.property.service.imp;
 
 import com.zl.property.model.hib.UserInfo;
+import com.zl.property.model.hib.server.Photo;
 import com.zl.property.model.hib.server.Repair;
 import com.zl.property.model.hib.utils.Banner;
 import com.zl.property.repository.BannerRepository;
+import com.zl.property.repository.PhotoRepository;
 import com.zl.property.repository.ServiceRepository;
 import com.zl.property.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,10 @@ public class ServiceServiceImp implements ServiceService {
 
     @Autowired
     ServiceRepository serviceRepository;
+
+    @Autowired
+    PhotoRepository photoRepository;
+
 
     @Autowired
     BannerRepository bannerRepository;
@@ -56,6 +62,8 @@ public class ServiceServiceImp implements ServiceService {
     @Override
     public Repair saveRepair(Repair repair) {
         Repair repair1 = serviceRepository.save(repair);
+        Iterable<Photo> PhotoList  = photoRepository.saveAll(repair.getPhotoList());
+
         return repair1;
     }
     /**

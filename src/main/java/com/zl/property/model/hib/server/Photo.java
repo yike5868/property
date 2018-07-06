@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 @Configuration
 @Entity
-@Table(name = "p_srver_photo")
+@Table(name = "p_server_photo")
 public class Photo {
     @Id
     @GeneratedValue(generator="system_uuid")

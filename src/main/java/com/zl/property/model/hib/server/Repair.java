@@ -57,7 +57,7 @@ public class Repair  {
     @Column(name = "photos")
     private String photos;
 
-    @Transient
+    @OneToMany( cascade = {CascadeType.ALL} )
     private List<Photo> PhotoList;
 
     /**
