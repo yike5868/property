@@ -27,6 +27,18 @@ public class Photo {
     @Column(name = "user_id")
     private String userId;
 
+    @ManyToOne(targetEntity=Repair.class)
+    @JoinColumn(name="id")//默认即为:user_id,也可自定义
+    private Repair repair;
+
+    public Repair getRepair() {
+        return repair;
+    }
+
+    public void setRepair(Repair repair) {
+        this.repair = repair;
+    }
+
     public String getId() {
         return id;
     }

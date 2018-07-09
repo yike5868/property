@@ -1,6 +1,7 @@
 package com.zl.property.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.zl.property.config.StateProperty;
 import com.zl.property.model.dto.ResultDto;
 import com.zl.property.model.hib.server.Repair;
 import com.zl.property.model.hib.utils.Banner;
@@ -48,6 +49,11 @@ public class ServiceController {
     @ResponseBody
     public  String saveRepair(@RequestBody Repair repair) {
         ResultDto resultDto = new ResultDto();
+
+        if(repair.getState() == null){
+            repair.setState(StateProperty.REPAIR_CREATE);
+        }
+
         Repair repairBack = serviceService.saveRepair(repair);
         if(repairBack == null){
             resultDto.setMessage("保存失败!请重试！");
@@ -60,6 +66,7 @@ public class ServiceController {
 
         return JSON.toJSONString(resultDto);
     }
+
 
     /**
      * 根据用户版本获取banner

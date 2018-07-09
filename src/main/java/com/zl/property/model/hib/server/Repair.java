@@ -57,7 +57,7 @@ public class Repair  {
     @Column(name = "photos")
     private String photos;
 
-    @OneToMany( cascade = {CascadeType.ALL} )
+    @OneToMany( cascade = {CascadeType.ALL} ,fetch=FetchType.EAGER )
     private List<Photo> PhotoList;
 
     /**
@@ -93,6 +93,30 @@ public class Repair  {
      */
     @Column(name = "type")
     private String type;
+
+    /**
+
+     */
+    @Transient
+    private int pageSize;
+    @Transient
+    private int pageIndex;
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getPageIndex() {
+        return pageIndex;
+    }
+
+    public void setPageIndex(int pageIndex) {
+        this.pageIndex = pageIndex;
+    }
 
     public Date getBeginDate() {
         return beginDate;

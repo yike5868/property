@@ -48,7 +48,7 @@ public class ServiceServiceImp implements ServiceService {
     public List<Repair> getRepairsByUserIdAndState(Repair repair) {
         List<Repair> repairs;
         if (repair.getState() == null)
-            repairs = serviceRepository.findRepairsByUserId(repair.getUserId());
+            repairs = serviceRepository.findRepairsByUserIdAndPageIndexAndPageSize(repair.getUserId(),repair.getPageIndex(),repair.getPageSize());
         else
             repairs = serviceRepository.findRepairsByUserIdAndState(repair.getRoomId(), repair.getState());
         return repairs;
@@ -62,8 +62,6 @@ public class ServiceServiceImp implements ServiceService {
     @Override
     public Repair saveRepair(Repair repair) {
         Repair repair1 = serviceRepository.save(repair);
-        Iterable<Photo> PhotoList  = photoRepository.saveAll(repair.getPhotoList());
-
         return repair1;
     }
     /**
