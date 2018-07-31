@@ -3,6 +3,8 @@ package com.zl.property.model.hib.property;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 单元
@@ -23,6 +25,39 @@ public class Room {
 
     @Column(name = "room_name")
     private String roomName;
+
+    @Column(name = "occupancy_date")
+    private Date occupancyDate;
+
+    @Column(name = "area")
+    private String area;
+
+    @Column(name = "pay_money")
+    private BigDecimal payMoney;
+
+    public BigDecimal getPayMoney() {
+        return payMoney;
+    }
+
+    public void setPayMoney(BigDecimal payMoney) {
+        this.payMoney = payMoney;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public Date getOccupancyDate() {
+        return occupancyDate;
+    }
+
+    public void setOccupancyDate(Date occupancyDate) {
+        this.occupancyDate = occupancyDate;
+    }
 
     public String getRoomId() {
         return roomId;

@@ -10,5 +10,4 @@ public interface ServiceRepository extends CrudRepository<Repair, Long> {
     List<Repair> findRepairsByUserId (String userId);
     List<Repair> findRepairsByState(String state);
     List<Repair> findRepairsByUserIdAndState(String userId, String state);
-    List<Repair> findRepairsByUserIdAndPageIndexAndPageSize(String userId,int pageIndex,int pageSize);
 }

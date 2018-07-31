@@ -24,16 +24,16 @@ public class UserInfo{
     private String realName;
     @Column(name = "phone")
     private String phone;
-    @Column(name = "address")
-    private String address;
-    @Column(name = "microdistrict_id")
-    private String microdistrictId;//楼栋
-    @Column(name = "building_id")
-    private String buildingId;
-    @Column(name = "unit_id")
-    private String unitId;
-    @Column(name = "room_id")
-    private String roomId;
+    @Column(name = "head_path")
+    private String headPath;
+
+    public String getHeadPath() {
+        return headPath;
+    }
+
+    public void setHeadPath(String headPath) {
+        this.headPath = headPath;
+    }
 
     public String getUserId() {
         return userId;
@@ -83,43 +83,4 @@ public class UserInfo{
         this.phone = phone;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getMicrodistrictId() {
-        return microdistrictId;
-    }
-
-    public void setMicrodistrictId(String microdistrictId) {
-        this.microdistrictId = microdistrictId;
-    }
-
-    public String getBuildingId() {
-        return buildingId;
-    }
-
-    public void setBuildingId(String buildingId) {
-        this.buildingId = buildingId;
-    }
-
-    public String getUnitId() {
-        return unitId;
-    }
-
-    public void setUnitId(String unitId) {
-        this.unitId = unitId;
-    }
-
-    public String getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
-    }
 }

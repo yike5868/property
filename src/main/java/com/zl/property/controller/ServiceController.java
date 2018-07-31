@@ -2,7 +2,10 @@ package com.zl.property.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.zl.property.config.StateProperty;
+import com.zl.property.model.dto.FeeUser;
 import com.zl.property.model.dto.ResultDto;
+import com.zl.property.model.hib.property.Room;
+import com.zl.property.model.hib.server.PropertyFee;
 import com.zl.property.model.hib.server.Repair;
 import com.zl.property.model.hib.utils.Banner;
 import com.zl.property.service.ServiceService;
@@ -19,6 +22,7 @@ import java.util.List;
 public class ServiceController {
       @Autowired
     ServiceService serviceService;
+
     static Logger logger = LoggerFactory.getLogger(UserServiceImp.class);
 
     /**
@@ -104,6 +108,65 @@ public class ServiceController {
             resultDto.setSuccess(false);
         }else{
             resultDto.setData(backBanner);
+        }
+        return JSON.toJSONString(resultDto);
+    }
+
+    /**
+     * 根据房间获取付款
+     */
+
+    @PostMapping("/getFee")
+    @ResponseBody
+    public  String getFee(@RequestBody FeeUser feeUser) {
+        ResultDto resultDto = new ResultDto();
+        List<PropertyFee> propertyFees= serviceService.getFeeByRoom(feeUser);
+        if(propertyFees == null){
+            //获取banner失败
+            resultDto.setMessage("请联系物业确认并生成订单！");
+            resultDto.setHasSuccess(true);
+            resultDto.setSuccess(false);
+        }else{
+            resultDto.setData(propertyFees);
+        }
+        return JSON.toJSONString(resultDto);
+    }
+
+    /**
+     * 根据房间获取付款
+     */
+
+    @PostMapping("/addFeeByRoom")
+    @ResponseBody
+    public  String addFeeByRoom(@RequestBody  PropertyFee propertyFee) {
+        ResultDto resultDto = new ResultDto();
+        boolean b = serviceService.addFeeByRoom(propertyFee);
+        if(!b){
+            //获取banner失败
+            resultDto.setMessage("添加失败！");
+            resultDto.setHasSuccess(true);
+            resultDto.setSuccess(false);
+        }else{
+            resultDto.setSuccess(true);
+        }
+        return JSON.toJSONString(resultDto);
+    }
+
+    /**
+     * 根据房间获取付款
+     */
+
+    @PostMapping("/addRoom")
+    @ResponseBody
+    public  String addRoom(@RequestBody Room room) {
+        ResultDto resultDto = new ResultDto();
+        boolean b = serviceService.addRoom(room);
+        if(!b){
+            resultDto.setMessage("添加失败！");
+            resultDto.setHasSuccess(true);
+            resultDto.setSuccess(false);
+        }else{
+            resultDto.setSuccess(true);
         }
         return JSON.toJSONString(resultDto);
     }

@@ -9,6 +9,9 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+/**
+ * 维修记录
+ */
 @Configuration
 @Entity
 @Table(name = "p_server_repairs")
@@ -101,19 +104,19 @@ public class Repair  {
     private int pageSize;
     @Transient
     private int pageIndex;
-
+    @Transient
     public int getPageSize() {
         return pageSize;
     }
-
+    @Transient
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
-
+    @Transient
     public int getPageIndex() {
         return pageIndex;
     }
-
+    @Transient
     public void setPageIndex(int pageIndex) {
         this.pageIndex = pageIndex;
     }
