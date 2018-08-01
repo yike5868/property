@@ -5,6 +5,8 @@ import com.zl.property.config.WebSecurityConfig;
 import com.zl.property.model.dto.ResultDto;
 import com.zl.property.model.dto.RoomItem;
 import com.zl.property.model.hib.UserInfo;
+import com.zl.property.model.hib.property.Room;
+import com.zl.property.service.ServiceService;
 import com.zl.property.service.UserService;
 import com.zl.property.service.imp.UserServiceImp;
 import com.zl.property.utils.JsonObjectUtils;
@@ -24,7 +26,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
+    @Autowired
+    ServiceService serviceService;
 
 
     /**
@@ -38,11 +41,13 @@ public class UserController {
         logger.info("登录查询用户,UserName{},详细入参:{}",userInfo.getUserName(), JsonObjectUtils.objectToJson(userInfo));
         ResultDto resultDto = new ResultDto();
         UserInfo userInfoBack = userService.findUserInfoByUserName(userInfo);
+        List<Room> roomList =serviceService.getRoomByUser(userInfo);
         if(userInfoBack == null){
             resultDto.setMessage("登录失败，请检查用户名或密码！");
             resultDto.setHasSuccess(true);
             resultDto.setSuccess(false);
         }else {
+            userInfoBack.setRoomList(roomList);
             resultDto.setData(userInfoBack);
             // 设置session
             session.setAttribute(WebSecurityConfig.SESSION_KEY, userInfoBack);

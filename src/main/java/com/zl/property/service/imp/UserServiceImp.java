@@ -46,6 +46,12 @@ public class UserServiceImp implements UserService {
     @Override
     public UserInfo register(UserInfo userInfo) {
         UserInfo s = userInfoRepository.save(userInfo);
+        List<Room> roomList = userInfo.getRoomList();
+        if (roomList != null)
+            for (int i = 0; i < roomList.size(); i++) {
+                roomList.get(i).setUserId(s.getUserId());
+            }
+        roomRepository.saveAll(roomList);
         return s;
     }
 
@@ -69,7 +75,7 @@ public class UserServiceImp implements UserService {
     public List<RoomItem> findBuildingByMicrodistrictId(String microdistrict) {
         List<Building> buildingList = buildingRepository.findBuildingByMicrodistrictId(microdistrict);
         List<RoomItem> roomItemList = new ArrayList<>();
-        if(buildingList!=null){
+        if (buildingList != null) {
             for (int i = 0; i < buildingList.size(); i++) {
                 RoomItem roomItem = new RoomItem();
                 roomItem.setId(buildingList.get(i).getBuildingId());
@@ -85,7 +91,7 @@ public class UserServiceImp implements UserService {
     public List<RoomItem> findUnitByBuildingId(String building) {
         List<Unit> unitList = unitRepository.findUnitRoomByBuildingId(building);
         List<RoomItem> roomItemList = new ArrayList<>();
-        if(unitList!=null){
+        if (unitList != null) {
             for (int i = 0; i < unitList.size(); i++) {
                 RoomItem roomItem = new RoomItem();
                 roomItem.setId(unitList.get(i).getUnitId());
@@ -101,7 +107,7 @@ public class UserServiceImp implements UserService {
     public List<RoomItem> findRoomByUnitId(String unit) {
         List<Room> roomList = roomRepository.findRoomByUnitId(unit);
         List<RoomItem> roomItemList = new ArrayList<>();
-        if(roomList!=null){
+        if (roomList != null) {
             for (int i = 0; i < roomList.size(); i++) {
                 RoomItem roomItem = new RoomItem();
                 roomItem.setId(roomList.get(i).getRoomId());

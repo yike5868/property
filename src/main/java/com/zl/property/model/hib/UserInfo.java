@@ -1,9 +1,11 @@
 package com.zl.property.model.hib;
 
+import com.zl.property.model.hib.property.Room;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Configuration
 @Entity
@@ -26,6 +28,16 @@ public class UserInfo{
     private String phone;
     @Column(name = "head_path")
     private String headPath;
+    @Transient
+    private List<Room> roomList;
+    @Transient
+    public List<Room> getRoomList() {
+        return roomList;
+    }
+    @Transient
+    public void setRoomList(List<Room> roomList) {
+        this.roomList = roomList;
+    }
 
     public String getHeadPath() {
         return headPath;

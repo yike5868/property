@@ -153,7 +153,7 @@ public class ServiceController {
     }
 
     /**
-     * 根据房间获取付款
+     * 添加房间
      */
 
     @PostMapping("/addRoom")

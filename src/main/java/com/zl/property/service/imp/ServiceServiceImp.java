@@ -155,4 +155,10 @@ public class ServiceServiceImp implements ServiceService{
         return true;
     }
 
+    @Override
+    public List<Room> getRoomByUser(UserInfo userInfo) {
+       List<Room> roomList = roomRepository.getRoomsByUserId(userInfo.getUserId());
+        return roomList;
+    }
+
 }

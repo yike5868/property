@@ -35,6 +35,20 @@ public class Room {
     @Column(name = "pay_money")
     private BigDecimal payMoney;
 
+    @Column(name = "user_id")
+    private String userId;
+
+    @Column(name = "address")
+    private String address;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public BigDecimal getPayMoney() {
         return payMoney;
     }
