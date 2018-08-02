@@ -12,6 +12,8 @@ public class PropertyApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PropertyApplication.class, args);
+//		String sr = hidePhone("18655881180");
+//		System.out.println(sr);
 	}
 
 	/**
@@ -26,5 +28,11 @@ public class PropertyApplication {
 		/// 设置总上传数据总大小
 		factory.setMaxRequestSize("100MB");
 		return factory.createMultipartConfig();
+	}
+
+	public static String hidePhone(String args) {
+
+		String phoneNumber = args.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
+		return phoneNumber;
 	}
 }

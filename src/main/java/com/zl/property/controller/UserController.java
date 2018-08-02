@@ -6,6 +6,7 @@ import com.zl.property.model.dto.ResultDto;
 import com.zl.property.model.dto.RoomItem;
 import com.zl.property.model.hib.UserInfo;
 import com.zl.property.model.hib.property.Room;
+import com.zl.property.model.hib.property.VersionDTO;
 import com.zl.property.service.ServiceService;
 import com.zl.property.service.UserService;
 import com.zl.property.service.imp.UserServiceImp;
@@ -125,5 +126,27 @@ public class UserController {
         }
         return JSON.toJSONString(resultDto);
     }
+
+
+    /**
+     * 获取Android版本信息
+     * @return
+     */
+    @PostMapping("/getAndroidVersion")
+    @ResponseBody
+    public  String getAndroidVersion() {
+        VersionDTO versionDTO = userService.getAndroidVersion();
+        ResultDto resultDto = new ResultDto();
+        if(versionDTO == null){
+            resultDto.setMessage("获取失败！请联系小区负责人");
+            resultDto.setHasSuccess(true);
+            resultDto.setSuccess(false);
+        }else{
+            resultDto.setData(versionDTO);
+        }
+
+        return JSON.toJSONString(resultDto);
+    }
+
 
 }

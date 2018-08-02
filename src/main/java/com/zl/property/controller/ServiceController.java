@@ -122,7 +122,9 @@ public class ServiceController {
         ResultDto resultDto = new ResultDto();
         List<PropertyFee> propertyFees= serviceService.getFeeByRoom(feeUser);
         if(propertyFees == null){
-            //获取banner失败
+            if(feeUser.getPageIndex()>1){
+                resultDto.setMessage("没有更多订单了！");
+            }else
             resultDto.setMessage("请联系物业确认并生成订单！");
             resultDto.setHasSuccess(true);
             resultDto.setSuccess(false);

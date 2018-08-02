@@ -2,10 +2,7 @@ package com.zl.property.service.imp;
 
 import com.zl.property.model.dto.RoomItem;
 import com.zl.property.model.hib.UserInfo;
-import com.zl.property.model.hib.property.Building;
-import com.zl.property.model.hib.property.Microdistrict;
-import com.zl.property.model.hib.property.Room;
-import com.zl.property.model.hib.property.Unit;
+import com.zl.property.model.hib.property.*;
 import com.zl.property.repository.*;
 import com.zl.property.service.UserService;
 import org.slf4j.Logger;
@@ -32,6 +29,8 @@ public class UserServiceImp implements UserService {
     UnitRepository unitRepository;
     @Autowired
     RoomRepository roomRepository;
+    @Autowired
+    VersionRepository versionRepository;
 
 
     public UserInfo findUserInfoByUserName(UserInfo userInfo) {
@@ -117,6 +116,12 @@ public class UserServiceImp implements UserService {
             }
         }
         return roomItemList;
+    }
+
+    @Override
+    public VersionDTO getAndroidVersion() {
+       VersionDTO versionDTO = versionRepository.getVersionDTOByType("android");
+        return versionDTO;
     }
 
 }
