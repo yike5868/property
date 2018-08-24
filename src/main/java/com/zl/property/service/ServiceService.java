@@ -19,4 +19,6 @@ public interface ServiceService {
     boolean addFeeByRoom(PropertyFee  propertyFee);
     boolean addRoom(Room room);
     List<Room> getRoomByUser(UserInfo userInfo);
+    boolean addRoomByUser(UserInfo room);
+    String getOrderInfo(FeeUser feeUser);
 }

@@ -14,4 +14,6 @@ public interface PropertyFeeRepository  extends CrudRepository<PropertyFee, Long
     @Modifying
     List<PropertyFee> findPropertyFee(String roomId, String payState,int pageIndex,int pageSize);
 
+    PropertyFee findPropertyFeesById(String id);
+
 }

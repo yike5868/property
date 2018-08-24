@@ -16,4 +16,6 @@ public interface UserService {
     List<RoomItem> findRoomByUnitId(String unit);
 
     VersionDTO getAndroidVersion();
+
+    boolean addRoomOnce();
 }

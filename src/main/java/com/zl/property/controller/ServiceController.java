@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.zl.property.config.StateProperty;
 import com.zl.property.model.dto.FeeUser;
 import com.zl.property.model.dto.ResultDto;
+import com.zl.property.model.hib.UserInfo;
 import com.zl.property.model.hib.property.Room;
 import com.zl.property.model.hib.server.PropertyFee;
 import com.zl.property.model.hib.server.Repair;
 import com.zl.property.model.hib.utils.Banner;
 import com.zl.property.service.ServiceService;
 import com.zl.property.service.imp.UserServiceImp;
+import com.zl.property.utils.EveryUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,5 +175,62 @@ public class ServiceController {
         return JSON.toJSONString(resultDto);
     }
 
+
+    /**
+     * 添加房间
+     */
+
+    @PostMapping("/addRoomUser")
+    @ResponseBody
+    public  String addRoomUser(@RequestBody UserInfo userInfo) {
+        ResultDto resultDto = new ResultDto();
+        boolean b = serviceService.addRoomByUser(userInfo);
+        if(!b){
+            resultDto.setMessage("添加失败！");
+            resultDto.setHasSuccess(true);
+            resultDto.setSuccess(false);
+        }else{
+            resultDto.setSuccess(true);
+        }
+        return JSON.toJSONString(resultDto);
+    }
+
+    /**
+     * 添加房间
+     */
+
+    @PostMapping("/getRoomByUser")
+    @ResponseBody
+    public  String getRoomByUser(@RequestBody UserInfo userInfo) {
+        ResultDto resultDto = new ResultDto();
+        List<Room> roomList = serviceService.getRoomByUser(userInfo);
+        if(EveryUtils.isEmpty(roomList)){
+            resultDto.setMessage("请添加房屋！");
+            resultDto.setHasSuccess(true);
+            resultDto.setSuccess(false);
+        }else{
+            resultDto.setData(roomList);
+        }
+        return JSON.toJSONString(resultDto);
+    }
+
+
+    /**
+     * 获取根据useid roomid 获取用户支付宝订单信息
+     */
+    @PostMapping("/getOrderInfo")
+    @ResponseBody
+    public  String getOrderInfo(@RequestBody FeeUser feeUser) {
+        String orderInfo = serviceService.getOrderInfo(feeUser);
+        ResultDto resultDto = new ResultDto();
+        if(EveryUtils.isEmpty(orderInfo)){
+            resultDto.setMessage("生成订单失败！");
+            resultDto.setHasSuccess(true);
+            resultDto.setSuccess(false);
+        }else{
+            resultDto.setData(orderInfo);
+        }
+        return JSON.toJSONString(resultDto);
+    }
 
 }

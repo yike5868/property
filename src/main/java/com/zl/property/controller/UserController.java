@@ -42,12 +42,13 @@ public class UserController {
         logger.info("登录查询用户,UserName{},详细入参:{}",userInfo.getUserName(), JsonObjectUtils.objectToJson(userInfo));
         ResultDto resultDto = new ResultDto();
         UserInfo userInfoBack = userService.findUserInfoByUserName(userInfo);
-        List<Room> roomList =serviceService.getRoomByUser(userInfo);
+        List<Room> roomList =serviceService.getRoomByUser(userInfoBack);
         if(userInfoBack == null){
             resultDto.setMessage("登录失败，请检查用户名或密码！");
             resultDto.setHasSuccess(true);
             resultDto.setSuccess(false);
         }else {
+            logger.info("查询的房间数据Wie"+JsonObjectUtils.objectToJson(roomList));
             userInfoBack.setRoomList(roomList);
             resultDto.setData(userInfoBack);
             // 设置session
@@ -149,4 +150,16 @@ public class UserController {
     }
 
 
+    /**
+     * 增加房间
+     */
+    @PostMapping("/addRoomOnce")
+    @ResponseBody
+    public  String addRoomOnce() {
+       boolean bbb =  userService.addRoomOnce();
+        ResultDto resultDto = new ResultDto();
+        resultDto.setSuccess(bbb);
+
+        return JSON.toJSONString(resultDto);
+    }
 }

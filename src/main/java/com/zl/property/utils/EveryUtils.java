@@ -1,5 +1,6 @@
 package com.zl.property.utils;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,7 +16,20 @@ public class EveryUtils {
             return false;
         }
     }
-
+    public static boolean isEmpty(String str){
+        if(str == null || "".equals(str)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public static boolean isEmpty(BigDecimal str){
+        if(str == null || "".equals(str)||"0".equals(str)){
+            return true;
+        }else{
+            return false;
+        }
+    }
     /**
      * 获取年份
      * @return

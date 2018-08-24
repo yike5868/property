@@ -9,7 +9,9 @@ import javax.servlet.http.HttpSession;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zl.property.controller.FileController;
+import com.zl.property.model.dto.ResultDto;
 import com.zl.property.utils.BodyReaderHttpServletRequestWrapper;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
@@ -21,6 +23,9 @@ import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import sun.rmi.runtime.Log;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -74,19 +79,19 @@ public class WebSecurityConfig extends WebMvcConfigurationSupport {
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
                 throws Exception {
 
-            //获取请求参数
-            Enumeration enu=request.getParameterNames();
-            while(enu.hasMoreElements()){
-                String paraName=(String)enu.nextElement();
-                logger.info("resvice data:  ",paraName+ "   " +request.getParameter(paraName));
-            }
 
+//           String str = readReqStr(request);
+//           logger.info("str",str);
 
             HttpSession session = request.getSession();
             if (session.getAttribute(SESSION_KEY) != null)
                 return true;
+            ResultDto resultDto = new ResultDto();
+            resultDto.setMessage("请重新登录！！！！！");
+            resultDto.setHasSuccess(true);
+            resultDto.setSuccess(false);
 
-            response.getWriter().write("请登录！！！！！");
+            response.getWriter().write(JSON.toJSONString(resultDto));
             return false;
         }
     }
@@ -95,4 +100,41 @@ public class WebSecurityConfig extends WebMvcConfigurationSupport {
         StringHttpMessageConverter converter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
         return converter;
     }
+
+    /**
+     * 读取request流
+     * @param request
+     * @return
+     */
+    public static String readReqStr(HttpServletRequest request)
+    {
+        BufferedReader reader = null;
+        StringBuilder sb = new StringBuilder();
+        try
+        {
+            reader = new BufferedReader(new InputStreamReader(request.getInputStream(), "utf-8"));
+            String line = null;
+            while ((line = reader.readLine()) != null)
+            {
+                sb.append(line);
+            }
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        } finally
+        {
+            try
+            {
+                if (null != reader)
+                {
+                    reader.close();
+                }
+            } catch (IOException e)
+            {
+
+            }
+        }
+        return sb.toString();
+    }
+
 }

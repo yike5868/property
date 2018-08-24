@@ -30,6 +30,10 @@ public class UserInfo{
     private String headPath;
     @Transient
     private List<Room> roomList;
+
+    @Transient
+    private String aesKey;
+
     @Transient
     public List<Room> getRoomList() {
         return roomList;
@@ -37,6 +41,14 @@ public class UserInfo{
     @Transient
     public void setRoomList(List<Room> roomList) {
         this.roomList = roomList;
+    }
+    @Transient
+    public String getAesKey() {
+        return aesKey;
+    }
+    @Transient
+    public void setAesKey(String aesKey) {
+        this.aesKey = aesKey;
     }
 
     public String getHeadPath() {

@@ -10,6 +10,7 @@ import com.zl.property.model.hib.server.Repair;
 import com.zl.property.model.hib.utils.Banner;
 import com.zl.property.repository.*;
 import com.zl.property.service.ServiceService;
+import com.zl.property.utils.AliPayUtils;
 import com.zl.property.utils.EveryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,10 @@ import javax.rmi.PortableRemoteObject;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
-public class ServiceServiceImp implements ServiceService{
+public class ServiceServiceImp implements ServiceService {
 
     @Autowired
     ServiceRepository serviceRepository;
@@ -99,6 +101,7 @@ public class ServiceServiceImp implements ServiceService{
 
     /**
      * 根据房间获取需要缴费的金额
+     *
      * @param feeUser
      * @return
      */
@@ -107,28 +110,28 @@ public class ServiceServiceImp implements ServiceService{
         if (feeUser == null) {
             return null;
         }
-        List<PropertyFee> propertyFeeList = propertyFeeRepository.findPropertyFee(feeUser.getRoomId(), feeUser.getPayState(), (feeUser.getPageIndex()-1)*feeUser.getPageSize(), feeUser.getPageSize());
+        List<PropertyFee> propertyFeeList = propertyFeeRepository.findPropertyFee(feeUser.getRoomId(), feeUser.getPayState(), (feeUser.getPageIndex() - 1) * feeUser.getPageSize(), feeUser.getPageSize());
 
-        if(EveryUtils.isEmpty(propertyFeeList)&&StateProperty.PAY_NO.equals(feeUser.getPayState())){
-            propertyFeeList = propertyFeeRepository.findPropertyFee(feeUser.getRoomId(), StateProperty.PAY_YES, (feeUser.getPageIndex()-1)*feeUser.getPageSize(), feeUser.getPageSize());
-            if(EveryUtils.isEmpty(propertyFeeList)){
+        if (EveryUtils.isEmpty(propertyFeeList) && StateProperty.PAY_NO.equals(feeUser.getPayState())) {
+            propertyFeeList = propertyFeeRepository.findPropertyFee(feeUser.getRoomId(), StateProperty.PAY_YES, (feeUser.getPageIndex() - 1) * feeUser.getPageSize(), feeUser.getPageSize());
+            if (EveryUtils.isEmpty(propertyFeeList)) {
                 return null;
             }
             PropertyFee oldFee = propertyFeeList.get(0);
             PropertyFee propertyFee = new PropertyFee();
             propertyFee.setUserId(feeUser.getUserId());
             propertyFee.setRoomId(feeUser.getRoomId());
-            propertyFee.setPayName(EveryUtils.getYear()+"年度物业费");
+            propertyFee.setPayName(EveryUtils.getYear() + "年度物业费");
             propertyFee.setPayMoney(oldFee.getPayMoney());
             Calendar cal = Calendar.getInstance();
             cal.setTime(oldFee.getBeginDate());//设置起时间
             int year = cal.get(Calendar.YEAR);
-            cal.set(Calendar.YEAR,year+1);
+            cal.set(Calendar.YEAR, year + 1);
             propertyFee.setBeginDate(cal.getTime());
 
             cal.setTime(oldFee.getEndDate());//设置终时间
             year = cal.get(Calendar.YEAR);
-            cal.set(Calendar.YEAR,year+1);
+            cal.set(Calendar.YEAR, year + 1);
             propertyFee.setEndDate(cal.getTime());
             propertyFee.setPayState(StateProperty.PAY_NO);
             propertyFeeRepository.save(propertyFee);
@@ -139,7 +142,7 @@ public class ServiceServiceImp implements ServiceService{
         return propertyFeeList;
     }
 
-    public boolean addFeeByRoom(PropertyFee  propertyFee){
+    public boolean addFeeByRoom(PropertyFee propertyFee) {
         propertyFeeRepository.save(propertyFee);
         return true;
     }
@@ -148,7 +151,7 @@ public class ServiceServiceImp implements ServiceService{
     public boolean addRoom(Room room) {
         try {
             roomRepository.save(room);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -157,8 +160,34 @@ public class ServiceServiceImp implements ServiceService{
 
     @Override
     public List<Room> getRoomByUser(UserInfo userInfo) {
-       List<Room> roomList = roomRepository.getRoomsByUserId(userInfo.getUserId());
+        List<Room> roomList = roomRepository.findRoomsByUserId(userInfo.getUserId());
         return roomList;
+    }
+
+    @Override
+    public boolean addRoomByUser(UserInfo userInfo) {
+        List<Room> roomList = userInfo.getRoomList();
+        if (roomList != null)
+            for (int i = 0; i < roomList.size(); i++) {
+                roomList.get(i).setUserId(userInfo.getUserId());
+            }
+        roomRepository.saveAll(roomList);
+        return true;
+    }
+
+    @Override
+    public String getOrderInfo(FeeUser feeUser) {
+        Room room = roomRepository.findRoomsByRoomId(feeUser.getRoomId());
+        if (EveryUtils.isEmpty(room.getPayMoney())) {
+            return null;
+        } else {
+            String target_id = UUID.randomUUID().toString().replaceAll("-", "");
+            String out_trade_no = UUID.randomUUID().toString().replaceAll("-", "");
+            PropertyFee propertyFee = propertyFeeRepository.findPropertyFeesById(feeUser.getFeeId());
+            String orderInfo = AliPayUtils.getOrderInfo(target_id, propertyFee.getPayName(), "物业费", out_trade_no, propertyFee.getPayMoney().toString());
+            return orderInfo;
+        }
+
     }
 
 }

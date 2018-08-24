@@ -10,4 +10,6 @@ public class StateProperty {
 
     public static final String PAY_NO = "PAYNO";//未付款
     public static final String PAY_YES = "PAYYES";//已付款
+
+    public static final String AES_KEY = "greatzhongtuozhl";//aes加密数据
 }
