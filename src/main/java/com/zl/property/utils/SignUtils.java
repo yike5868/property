@@ -4,6 +4,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 import java.security.KeyFactory;
 import java.security.PrivateKey;
+import java.security.Security;
 import java.security.spec.PKCS8EncodedKeySpec;
 
 public class SignUtils {
@@ -24,6 +25,7 @@ public class SignUtils {
 		try {
 			PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(
 					Base64.decode(privateKey));
+			Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 			KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM, "BC");
 			PrivateKey priKey = keyFactory.generatePrivate(priPKCS8);
 

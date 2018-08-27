@@ -220,8 +220,9 @@ public class ServiceController {
      */
     @PostMapping("/getOrderInfo")
     @ResponseBody
-    public  String getOrderInfo(@RequestBody FeeUser feeUser) {
-        String orderInfo = serviceService.getOrderInfo(feeUser);
+    public  String getOrderInfo(@RequestBody List<PropertyFee> propertyFeeList) {
+        PropertyFee propertyFee = propertyFeeList.get(0);
+        String orderInfo = serviceService.getOrderInfo(propertyFee);
         ResultDto resultDto = new ResultDto();
         if(EveryUtils.isEmpty(orderInfo)){
             resultDto.setMessage("生成订单失败！");

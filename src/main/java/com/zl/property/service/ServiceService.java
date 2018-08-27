@@ -20,5 +20,5 @@ public interface ServiceService {
     boolean addRoom(Room room);
     List<Room> getRoomByUser(UserInfo userInfo);
     boolean addRoomByUser(UserInfo room);
-    String getOrderInfo(FeeUser feeUser);
+    String getOrderInfo(PropertyFee propertyFee);
 }

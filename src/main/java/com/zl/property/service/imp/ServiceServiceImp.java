@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.rmi.PortableRemoteObject;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -176,15 +177,16 @@ public class ServiceServiceImp implements ServiceService {
     }
 
     @Override
-    public String getOrderInfo(FeeUser feeUser) {
-        Room room = roomRepository.findRoomsByRoomId(feeUser.getRoomId());
+    public String getOrderInfo(PropertyFee fee) {
+        Room room = roomRepository.findRoomsByRoomId(fee.getRoomId());
         if (EveryUtils.isEmpty(room.getPayMoney())) {
             return null;
         } else {
-            String target_id = UUID.randomUUID().toString().replaceAll("-", "");
-            String out_trade_no = UUID.randomUUID().toString().replaceAll("-", "");
-            PropertyFee propertyFee = propertyFeeRepository.findPropertyFeesById(feeUser.getFeeId());
-            String orderInfo = AliPayUtils.getOrderInfo(target_id, propertyFee.getPayName(), "物业费", out_trade_no, propertyFee.getPayMoney().toString());
+            String outtradeno = UUID.randomUUID().toString().replaceAll("-", "");
+            PropertyFee propertyFee = propertyFeeRepository.findPropertyFeesById(fee.getId());
+            String payMoney = propertyFee.getPayMoney().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+            String orderInfo = AliPayUtils.getAlipayInfo( outtradeno,"物业费",propertyFee.getPayName(),payMoney);
+//            String orderInfo = AliPayUtils.getOrderInfo(target_id, propertyFee.getPayName(), "物业费", out_trade_no, propertyFee.getPayMoney().toString());
             return orderInfo;
         }
 

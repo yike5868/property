@@ -84,6 +84,22 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
         </dependency>
+
+		<dependency>
+			<groupId>com.alipay</groupId>
+			<artifactId>alipay-sdk-java</artifactId>
+			<version>3.3.4.ALL</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/libs/alipay-sdk-java-3.3.4.ALL.jar</systemPath>
+		</dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk16</artifactId>
+            <version>1.46</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/libs/bcprov-jdk16-1.46.jar</systemPath>
+        </dependency>
         <!--
         需要查看学习， 整合项目
         <dependency>
@@ -93,7 +109,6 @@
         </dependency>
             -->
 
-
     </dependencies>
 
 	<build>
@@ -101,6 +116,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>
+								repackage
+							</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

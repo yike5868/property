@@ -1,5 +1,12 @@
 package com.zl.property.utils;
 
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.domain.AlipayTradeAppPayModel;
+import com.alipay.api.request.AlipayTradeAppPayRequest;
+import com.alipay.api.response.AlipayTradeAppPayResponse;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
@@ -8,31 +15,7 @@ public class AliPayUtils {
     public static final String URL = "";
     public static final String APP_ID = "2018080760933353";
     public static final String PID= "2088131907926585";
-    public static final String APP_PRIVATE_KEY= "MIIEpAIBAAKCAQEAqAxs6Q+CaVvnB/O82bnVpWtlCH/Est1kSh1HY5XMApXbwzuX" +
-            "XlwUT189Ij2yAdg8k7mMP7cfPaYd1XUKe8J6Ga7iUCByuWA+7/d2LZldIeOxIxAY" +
-            "ZdhKRsh/VbNFHDuKLaIRvw282aE02hnfgCia8smLb5smRZ0JTy3pgT+GJ0RHMRMp" +
-            "UKLo9ItezUHI0Dh2Z6jKLdIpTcEidFr9y7B1bBFlQ04RyHr/9tn5qbvARHOe55lN" +
-            "kB9vPkuvKF7y1qhEo6zPULkHnm+BjFJi/fuP14L1vQZ+QaRH42QVvJo/Cf1VPlIM" +
-            "ZsOMUfYgDfWWw3/+8AltueoFKcFTVKvkUhNWzQIDAQABAoIBAEe1tavmYGIRQ48T" +
-            "JV1Lfa2vHFf6Hbet3aP6xoHqZDoeNL8k6LztUgVkwLOh3BoJaiAnp39w5zXpcwWp" +
-            "giW5oVzgUdabYhlUxsajtJxUu3dAsFAkCCU9nMSDvkKV00Hu7lH2vNfoRtQfhGwl" +
-            "akhIC4bbFlMzw6slDdnp36C1uMt8GE6YzMpmQZgc5FWqR3jxeoy6qfV1Ig2ZDnfB" +
-            "W46kGTZSqeSCEQ2mctYU3g+8zjhCMdUhqWV0NCmr1ZB1rE5kxE0uaeT3nvpAb/0O" +
-            "ogWzCHjvcAVny/hGS0hQc+q7hWYc0H0zHZGn+0KVJ7XMQH5DMJlkJQBRCan1G1H4" +
-            "Bse/kAkCgYEA08XO/4XhMpA5FaTRhobz5ZZb0uKwTuITUGmktQRmQIKOIb0HJlFA" +
-            "jmW6tOc9RgUjJHv8+5FagEiwB3GOEvGXaH+Qnr/F+AFYaRDqfqmLKLFoOwwluUvV" +
-            "iJPZRLD1ESFSVItdwvQQCfCE/aHBQEklzrWQbHE1qPGQ0nao9Mi8bLcCgYEAyyT0" +
-            "IGOZou1aGWMu3u+kSMYfJzj6pF5uo5+vdjNUBWYw5PQIldLh5uXMkf7UQCou5o2h" +
-            "pKCGDJUyy1IE9CSMSSWkNTjbJrzcH6B0lnaOMDmtKm9WVJXabox96Eklkl4vSloN" +
-            "8paNYj657Jat4a/VLFwwaRFJOOmkLfoxgRYynJsCgYBGPIzy4oxWIM9OBmQXohqy" +
-            "QrQhtV2UTBbrzJ38C4F+U86gEfmVE829bLAH38nKt1l4eEbniMXjVjhLv7XHQqlc" +
-            "1zI39JLMNmYEMsATUlf9Hxnau6SnWCdyLNcamTYugEa2E6L9TcUkBsmU9VkK4TfQ" +
-            "3xcPYFzTs4q8wu42gX088QKBgQDCrEMW1tvgeryhH59HHTe+Vb59A+mNosE8JEct" +
-            "arrWAbxRbFrd2R2K/CUys5YLd2FCp++DqCFN5Zyro4oDvRKC9oOKTVYWpV39IPMZ" +
-            "TbutE1iTFecRYBnXXuM5uv86aO/AvNQo6YXL5Hif9TXk1W/f9uidh2c4Fw6y0NSn" +
-            "8/HEiQKBgQDAWQ3RnVElI66jUfxzUr60061Twjdz1xeRMUWFg9ZzRBD479AZ6BHF" +
-            "AMiZvuHGVRys/YSmOAHxu6Rl4EpQ7QBzEZ/iihDuZ3XdyJ3c81Mc89A5L298Iakp" +
-            "BoZaRppURVsRPXuzu0tSEJLtWH1hZ0PLSFEtKmpZsIs8e+cWGCU/aQ==";
+    public static final String APP_PRIVATE_KEY= "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDMqHTtTaZEnoJZJWlWTmBXprWKt8LB2BoLJBiA0z8kAjoBQp0Jby2DwPQ1iOsYCkKsbg0w1doMCTM1z4fgh2EyV6t1hGHe9M5BY+95IhBtXOSvQI3VayB8mnQS6iYh6PkF2LIMbHJ0BNgeHrE9+PyOGdcRXdYh59G/YD7JOJzh1P1ErTKXPMNgOgFjQq2TPbV27cfPjTfFY9G/1k55g4qZurhuREoDrYZ6jzyVirCpcguD3Vy7PpdS6AU75Ty9e4vLIKw+2DKXzLzo6FdJQbFd4fb0FX6p5Y/6BKaDZKrovZATOZbbCF+S1oysBL1dvWhxrnX8WxhHSply1JiTTcrDAgMBAAECggEBAMnfXL76+gfzprXSbk5Ar02mVqqHSqe0xzO4HidsuHqHa7n0gDxfGzE8MmdgMC2daVj2kTJbr2Jx7L6mf+wc/eYPjkQ0Geo35f+gWQZOcI+/sp+f+IfMzNW78MT7jDOkv4Zh0nbovhjs8lT7h2+O22g72uX5fpAhP8cbY7NOkYk7relEfxgJt83FWAueWVX4iWSvDmB6EU72oOxwl+MpSXX/cYQ/KjioIjLxjndlHZnhWckSs5FZUEjiQ1UGr8vY6i/vK+J1KDKQjtAw9AdEVqe77cIPaMaBBedf5XI1+H+XyIxi8OSL48T9OzslMGY+9h5nkL8G6+qwAsai1okesJECgYEA/PPoL9ehvnu/LXcrlMqfGh0/dEbhu8zDBRZEZf9kFPvpXikJy67k2oOR2swlohAykhhECRSFCKsRW4nrJWZ4biR65h6/G1tQe0PDps+nrbo2kWNzwwM8J6nkaGPN/8QVoQds6A/fABLdMCiXbpyPeAne7gSij56dU2h+oQ02v2sCgYEAzx+cgmxwwPKCgtjzFXzT8Z+7sP1oV3+n0jbTBcdaFAPVgzwdFoSk5JT3dcP6oCvp/Tnr8Iq6O17EzE0iFrpZJAX6NSz53uvCieHQFMd8uceHn5CCItfoAMRW65tIxVAtH3cm1EQYf3NMPcD+KmIn2dnyFxlKtXkKjTp01cm3MAkCgYBLQZ2wriy26UYllrDmoanYMR9xzqzWHMNgvhE3b1YtUA1MMFVzveLkiARa3iXMI5mIEaQcN3ik7ZBKdav6ApSN4FiYIkmlL/Ov2Kda96jhbOdTNg141XuOKWOFEzx0fbgZooXqPN6RvQsFiu4SwI2GnxkuIz7iD8SqzgnujGnfZQKBgAaWFr/++sbn70aB55jzUzoHvkwugrbllEyW+bbhU/f29z8pFjO1HBk4s3XHOZ0GSHaI9Pu9LZbduJxWh5L5cgQ3PHGccIWqMZF44MkIXur5cVKdocXB39rGY40ybun3Vrf9bfqp/61t2SrNjEeEv4ep6ozZfQqwQqmjBjwWIgEhAoGAWqq20MCcFprqJUjB0gcEbzV7klpf6n5mbGB0ARy5bFIEmVkk2ZncaUvF7IfwvoQsh+zYYQIzQPOFlgrhgst8UfYT/6l6rRkLFMcv7cczfEbJ4uZ4oog3EonJn2EU+TIpn2asVw6HH+HOaAPoV1lNwotPzGuUW9lBd9sdFTkuRNI=";
     public static final String FORMAT = "json";
     public static final String CHARSET = "UTF-8";
     public static final String ALIPAY_PUBLIC_KEY="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuTi5trP3kH6pjLAuowejQ4wqm0EW6v2QcVrlb/JjQDUU1ipcTC/bS26rTeKUmtKVEZqy+aCRUhLFVe2dJ8Sb+ctvm4vZm75s7B0/IezDZUgnSohhoiu9R1gdDaY3PowYlc06xxONrOo48KXz1EjHwCpaC802/Vnu5W/j0TtjUCr/66+NdrWJEMyVjroDFsvjKSa7tNQOmR9bBYCf0AMGxZ5ScjPn2Fmoty4vjwDI+Ym67ggpQ73k5TGFfD1KsRmuM/1bUXoTyo+Yt6Zko+fMou4gYrwwHol/7UTTFkubPcmadrfaPxxGT1q09QNKtQF4qBudp8nE+29WM2g6pIqrKwIDAQAB";
@@ -41,6 +24,37 @@ public class AliPayUtils {
     // （1c-当天的情况下，无论交易何时创建，都在0点关闭）。 该参数数值不接受小数点， 如 1.5h，可转换为 90m。
     //注：若为空，则默认为15d。
     private static final String timeout_express = "1c";
+
+
+
+    public static String getAlipayInfo(String outtradeno,String body,String subject,String totalAmount){
+
+        //实例化客户端
+        AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA2");
+//实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
+        AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
+//SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
+        AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
+        model.setBody(body);
+        model.setSubject(subject);
+        model.setOutTradeNo(outtradeno);
+        model.setTimeoutExpress(timeout_express);
+        model.setTotalAmount(totalAmount);
+        model.setProductCode("QUICK_MSECURITY_PAY");
+        request.setBizModel(model);
+//        request.setNotifyUrl("商户外网可以访问的异步地址");
+        try {
+            //这里和普通的接口调用不同，使用的是sdkExecute
+            AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
+            System.out.println(response.getBody());//就是orderString 可以直接给客户端请求，无需再做处理。
+            return  response.getBody();
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
     /**
      *
@@ -68,9 +82,9 @@ public class AliPayUtils {
 
         Map<String,String> orderMap = buildAuthInfoMap(target_id);
         //对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body 301物业费
-        orderMap.put("body",body);
+        orderMap.put("body","property");
         //商品的标题/交易标题/订单标题/订单关键字等。  物业费
-        orderMap.put("subject",subject);
+        orderMap.put("subject","orderproperty");
         //商户网站唯一订单号
         orderMap.put("out_trade_no",out_trade_no);
         //订单失效时间
@@ -83,7 +97,7 @@ public class AliPayUtils {
         //注：虚拟类商品不支持使用花呗渠道
         orderMap.put("goods_type","0");
        // 公用回传参数，如果请求时传递了该参数，则返回给商户时会回传该参数。支付宝会在异步通知时将该参数原样返回。本参数必须进行UrlEncode之后才可以发送给支付宝
-        orderMap.put("passback_params",null);
+//        orderMap.put("passback_params",null);
         //可用渠道，用户只能在指定渠道范围内支付
         //当有多个渠道时用“,”分隔
         //注：与disable_pay_channels互斥
@@ -151,13 +165,13 @@ public class AliPayUtils {
         for (int i = 0; i < keys.size() - 1; i++) {
             String key = keys.get(i);
             String value = map.get(key);
-            authInfo.append(buildKeyValue(key, value, false));
+            authInfo.append(buildKeyValue(key, value, true));
             authInfo.append("&");
         }
 
         String tailKey = keys.get(keys.size() - 1);
         String tailValue = map.get(tailKey);
-        authInfo.append(buildKeyValue(tailKey, tailValue, false));
+        authInfo.append(buildKeyValue(tailKey, tailValue, true));
 
         String oriSign = SignUtils.sign(authInfo.toString(), APP_PRIVATE_KEY, true);
         String encodedSign = "";
