@@ -7,6 +7,7 @@ import com.zl.property.model.dto.RoomItem;
 import com.zl.property.model.hib.UserInfo;
 import com.zl.property.model.hib.property.Room;
 import com.zl.property.model.hib.property.VersionDTO;
+import com.zl.property.model.hib.utils.Banner;
 import com.zl.property.service.ServiceService;
 import com.zl.property.service.UserService;
 import com.zl.property.service.imp.UserServiceImp;
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.rmi.runtime.Log;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -160,6 +162,27 @@ public class UserController {
         ResultDto resultDto = new ResultDto();
         resultDto.setSuccess(bbb);
 
+        return JSON.toJSONString(resultDto);
+    }
+
+
+    /**
+     * 增加房间
+     */
+    @PostMapping("/getBanner")
+    @ResponseBody
+    public  String getBanner() {
+       List<Banner>  bannerList = userService.findListBanner();
+
+        ResultDto resultDto = new ResultDto();
+        if(bannerList == null){
+            resultDto.setMessage("获取失败");
+            resultDto.setHasSuccess(true);
+            resultDto.setSuccess(false);
+        }else{
+            resultDto.setData(bannerList);
+        }
+        logger.info(JSON.toJSONString(resultDto));
         return JSON.toJSONString(resultDto);
     }
 }

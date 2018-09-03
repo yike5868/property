@@ -3,6 +3,7 @@ package com.zl.property.service;
 import com.zl.property.model.dto.RoomItem;
 import com.zl.property.model.hib.UserInfo;
 import com.zl.property.model.hib.property.*;
+import com.zl.property.model.hib.utils.Banner;
 
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface UserService {
     VersionDTO getAndroidVersion();
 
     boolean addRoomOnce();
+    List<Banner> findListBanner();
 }

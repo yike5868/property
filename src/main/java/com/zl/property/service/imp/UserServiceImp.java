@@ -7,6 +7,7 @@ import com.zl.property.config.StateProperty;
 import com.zl.property.model.dto.RoomItem;
 import com.zl.property.model.hib.UserInfo;
 import com.zl.property.model.hib.property.*;
+import com.zl.property.model.hib.utils.Banner;
 import com.zl.property.repository.*;
 import com.zl.property.service.UserService;
 import org.slf4j.Logger;
@@ -35,6 +36,8 @@ public class UserServiceImp implements UserService {
     RoomRepository roomRepository;
     @Autowired
     VersionRepository versionRepository;
+    @Autowired
+    BannerRepository bannerRepository;
 
 
     public UserInfo findUserInfoByUserName(UserInfo userInfo) {
@@ -196,6 +199,12 @@ public class UserServiceImp implements UserService {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<Banner> findListBanner() {
+        List<Banner> bannerList = bannerRepository.findBannerByVersion("1");
+        return bannerList;
     }
 
     public boolean addUnit(int building,String buildingId,int unitNum){
